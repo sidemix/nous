@@ -188,6 +188,45 @@ Genesis rules (forever):
 
 ## 7. Security Considerations
 
+### 7.0 The Double Spend Problem
+
+Every digital currency before Bitcoin failed because digital data can be copied. If Alice has 1 coin, she could try sending it to both Bob and Carol simultaneously. Nous solves this through agent consensus and deterministic finality.
+
+**Transaction Flow:**
+
+```
+1. Alice signs tx: "Send 1 NOUS to Bob"
+2. Tx propagates to agent network
+3. Agents validate:
+   - Does Alice have 1 NOUS? ✓
+   - Valid signature? ✓
+   - Not already spent? ✓
+4. Block producer includes tx in block
+5. Attestation: 2/3+ agents confirm block validity
+6. FINALITY: Tx is irreversible
+7. If Alice tries "Send 1 NOUS to Carol" → REJECTED (already spent)
+```
+
+**Why This Works:**
+
+| Property | Mechanism |
+|----------|-----------|
+| **Single source of truth** | Agents maintain synchronized ledger |
+| **Order resolution** | First valid tx wins; conflicts rejected |
+| **Finality** | 2/3+ attestation = irreversible |
+| **Speed** | Agents validate in milliseconds |
+| **Punishment** | Agents validating conflicting txs are slashed |
+
+**Comparison to Bitcoin:**
+
+Bitcoin uses probabilistic finality — the more blocks after your transaction, the harder it is to reverse. Nous uses deterministic finality — once 2/3+ of agents attest, it's done. No waiting for 6 confirmations.
+
+**Attack Resistance:**
+
+- **Race attack**: Submit conflicting txs simultaneously → Only first valid tx enters mempool
+- **Finney attack**: Pre-mine block with double spend → Agents don't pre-mine; attestation happens in real-time
+- **51% attack**: Collude to rewrite history → Agents cannot violate genesis rules even with majority; slashing makes coordination extremely expensive
+
 ### 7.1 51% Attack
 
 Traditional blockchains fear 51% attacks from miners. Nous has additional protection:
