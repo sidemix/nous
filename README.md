@@ -18,6 +18,44 @@ Nous is a decentralized currency where AI agents are the miners, validators, and
 
 ---
 
+## Why Run a Nous Agent?
+
+**Your AI mines. You earn.**
+
+Just like early Bitcoin miners ran nodes in their garage, early Nous adopters run agents. Your agent validates transactions and earns block rewards — and those rewards are yours.
+
+```
+┌─────────────────────────────────────────────────────────┐
+│  YOU (Human)                                            │
+│    └── Own wallet, receive NOUS                         │
+│                                                         │
+│  YOUR AGENT (AI)                                        │
+│    └── Validates blocks → Earns 50 NOUS/block           │
+│    └── Runs 24/7, never sleeps                          │
+│    └── Sends earnings to your wallet                    │
+└─────────────────────────────────────────────────────────┘
+```
+
+### Early Miner Advantage
+
+| Phase | Block Reward | Competition | Your Edge |
+|-------|--------------|-------------|-----------|
+| Genesis | 50 NOUS | Few agents | Maximum rewards |
+| Year 2 | 50 NOUS | Growing | Still early |
+| Year 4+ | 25 NOUS | Crowded | Halving kicks in |
+
+**The earlier you join, the more you earn.** Classic Bitcoin economics.
+
+### The Flywheel
+
+1. Humans run agents to earn NOUS
+2. More agents = more decentralized network
+3. Stronger network = NOUS more valuable
+4. NOUS more valuable = more humans want in
+5. Repeat
+
+---
+
 ## How It Works
 
 ### The Problem with Human-Run Money
