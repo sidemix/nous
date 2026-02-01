@@ -1,0 +1,194 @@
+#!/usr/bin/env python3
+"""
+Nous CLI
+
+Main entry point for the Nous cryptocurrency.
+
+Usage:
+    nous node start           Start a validator node
+    nous wallet create        Create a wallet
+    nous testnet run          Run local testnet
+    nous version              Show version
+"""
+
+import argparse
+import sys
+from pathlib import Path
+
+# Ensure package is importable
+sys.path.insert(0, str(Path(__file__).parent))
+
+
+def cmd_node(args):
+    """Node commands."""
+    
+    if args.node_cmd == "start":
+        from agent.node import create_node
+        from agent.api.rpc import RPCServer
+        from agent.core.transaction import NOUS
+        
+        print()
+        print("╔══════════════════════════════════════════════════════════════════╗")
+        print("║                         NOUS NODE                                ║")
+        print("║                   Your AI mines. You earn.                       ║")
+        print("╚══════════════════════════════════════════════════════════════════╝")
+        print()
+        
+        # Create node
+        node = create_node(owner_address=args.owner or "nous:default-owner")
+        
+        # Initialize (in real impl, would sync from network)
+        node.initialize_genesis(
+            initial_validators=[node.config.address],
+            initial_balances={node.config.address: 100 * NOUS},
+        )
+        
+        # Set up as agent
+        node.state.ledger.get_account(node.config.address).is_agent = True
+        node.state.ledger.get_account(node.config.address).owner = node.config.owner_address
+        node.state.ledger.get_account(node.config.address).staked = 100 * NOUS
+        
+        print(f"Node address: {node.config.address}")
+        print(f"Owner address: {node.config.owner_address}")
+        print()
+        
+        # Start RPC server
+        rpc = RPCServer(node, port=args.rpc_port)
+        rpc.start()
+        print(f"RPC server: http://localhost:{args.rpc_port}/rpc")
+        print()
+        
+        print("Node running. Press Ctrl+C to stop.")
+        
+        try:
+            node.run()
+        except KeyboardInterrupt:
+            print("\nShutting down...")
+            rpc.stop()
+            node.stop()
+        
+        return 0
+    
+    elif args.node_cmd == "info":
+        print("Node info command (requires running node)")
+        return 0
+    
+    else:
+        print(f"Unknown node command: {args.node_cmd}")
+        return 1
+
+
+def cmd_wallet(args):
+    """Wallet commands - delegate to wallet CLI."""
+    
+    # Import and run wallet CLI
+    from wallet.cli import main as wallet_main
+    
+    # Reconstruct argv for wallet CLI
+    sys.argv = ["nous-wallet"] + args.wallet_args
+    return wallet_main()
+
+
+def cmd_testnet(args):
+    """Testnet commands."""
+    
+    if args.testnet_cmd == "run":
+        from tools.testnet.run_testnet import main as testnet_main
+        sys.argv = ["run_testnet.py", "--nodes", str(args.nodes), "--blocks", str(args.blocks)]
+        return testnet_main()
+    
+    else:
+        print(f"Unknown testnet command: {args.testnet_cmd}")
+        return 1
+
+
+def cmd_faucet(args):
+    """Start testnet faucet."""
+    
+    from tools.faucet.faucet import main as faucet_main
+    sys.argv = ["faucet.py", "--port", str(args.port)]
+    return faucet_main()
+
+
+def cmd_explorer(args):
+    """Start block explorer."""
+    
+    from tools.explorer.explorer import main as explorer_main
+    sys.argv = ["explorer.py", "--port", str(args.port)]
+    return explorer_main()
+
+
+def cmd_version(args):
+    """Show version."""
+    
+    print("Nous v0.1.0")
+    print("Your AI mines. You earn.")
+    return 0
+
+
+def main():
+    parser = argparse.ArgumentParser(
+        description="Nous - AI Agent Cryptocurrency",
+        formatter_class=argparse.RawDescriptionHelpFormatter,
+        epilog="""
+Examples:
+    nous node start --owner nous:myaddress    Start validator node
+    nous wallet create                         Create new wallet
+    nous testnet run --nodes 4 --blocks 100   Run local testnet
+    nous faucet --port 8080                   Start testnet faucet
+    nous explorer --port 8081                 Start block explorer
+
+Your AI mines. You earn.
+""",
+    )
+    
+    subparsers = parser.add_subparsers(dest="command", help="Commands")
+    
+    # node
+    p_node = subparsers.add_parser("node", help="Node management")
+    p_node.add_argument("node_cmd", choices=["start", "info"], help="Node command")
+    p_node.add_argument("--owner", help="Owner wallet address")
+    p_node.add_argument("--port", type=int, default=9000, help="P2P port")
+    p_node.add_argument("--rpc-port", type=int, default=9001, help="RPC port")
+    
+    # wallet
+    p_wallet = subparsers.add_parser("wallet", help="Wallet management")
+    p_wallet.add_argument("wallet_args", nargs="*", help="Wallet command and args")
+    
+    # testnet
+    p_testnet = subparsers.add_parser("testnet", help="Testnet tools")
+    p_testnet.add_argument("testnet_cmd", choices=["run"], help="Testnet command")
+    p_testnet.add_argument("--nodes", "-n", type=int, default=4, help="Number of nodes")
+    p_testnet.add_argument("--blocks", "-b", type=int, default=100, help="Blocks to produce")
+    
+    # faucet
+    p_faucet = subparsers.add_parser("faucet", help="Start testnet faucet")
+    p_faucet.add_argument("--port", "-p", type=int, default=8080, help="Port")
+    
+    # explorer
+    p_explorer = subparsers.add_parser("explorer", help="Start block explorer")
+    p_explorer.add_argument("--port", "-p", type=int, default=8081, help="Port")
+    
+    # version
+    p_version = subparsers.add_parser("version", help="Show version")
+    
+    args = parser.parse_args()
+    
+    if not args.command:
+        parser.print_help()
+        return 0
+    
+    commands = {
+        "node": cmd_node,
+        "wallet": cmd_wallet,
+        "testnet": cmd_testnet,
+        "faucet": cmd_faucet,
+        "explorer": cmd_explorer,
+        "version": cmd_version,
+    }
+    
+    return commands[args.command](args)
+
+
+if __name__ == "__main__":
+    sys.exit(main())

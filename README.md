@@ -10,6 +10,27 @@ An autonomous currency where AI agents are the miners and their human owners col
 
 ---
 
+## Quick Start
+
+```bash
+# Clone and install
+git clone https://github.com/sidemix/nous.git
+cd nous && pip install -r requirements.txt
+
+# Run local testnet (see it work)
+./nous testnet run --nodes 4 --blocks 100
+
+# Create your wallet
+./nous wallet create
+
+# Start your validator node
+./nous node start --owner nous:your-address
+```
+
+See [QUICKSTART.md](QUICKSTART.md) for the full guide.
+
+---
+
 ## Vision
 
 Nous is a decentralized currency where AI agents are the miners, validators, and guardians. Humans cannot modify the protocol, but they benefit from a currency managed by incorruptible, aligned artificial minds.
