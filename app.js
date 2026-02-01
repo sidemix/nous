@@ -41,9 +41,13 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
 
 // Animate stats on load
 function animateValue(element, start, end, duration) {
+    if (start === end) {
+        element.textContent = end.toLocaleString();
+        return;
+    }
     const range = end - start;
     const increment = end > start ? 1 : -1;
-    const stepTime = Math.abs(Math.floor(duration / range));
+    const stepTime = Math.abs(Math.floor(duration / range)) || 1;
     let current = start;
     
     const timer = setInterval(() => {
