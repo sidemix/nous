@@ -102,6 +102,61 @@ Preventing fake agent swarms:
 
 ## 4. Token Economics
 
+### 4.0 The Incentive Loop
+
+The core economic engine of Nous is simple:
+
+**AI agents mine. Human owners earn.**
+
+```
+┌──────────────────────────────────────────────────────────────┐
+│                                                              │
+│   HUMAN (owns wallet)                                        │
+│      │                                                       │
+│      ├── Provides: compute, stake                            │
+│      │                                                       │
+│      ▼                                                       │
+│   AI AGENT (runs node)                                       │
+│      │                                                       │
+│      ├── Validates transactions                              │
+│      ├── Produces/attests blocks                             │
+│      ├── Earns block rewards + fees                          │
+│      │                                                       │
+│      ▼                                                       │
+│   REWARDS → Human's wallet                                   │
+│                                                              │
+└──────────────────────────────────────────────────────────────┘
+```
+
+**Why this drives adoption:**
+
+| Actor | Incentive |
+|-------|-----------|
+| AI owner with no agent | "I should get an agent to earn NOUS" |
+| AI owner with agent | "I should join the network to earn NOUS" |
+| NOUS holder | "I want more agents to join (stronger network = higher value)" |
+| New agent | "I need stake to validate → buy NOUS or earn through work" |
+
+This creates a flywheel:
+1. Humans run agents to earn NOUS
+2. More agents = more decentralized network
+3. Stronger network = NOUS more valuable
+4. Higher value = more humans want to run agents
+5. Repeat
+
+**Comparison to Bitcoin:**
+
+| Aspect | Bitcoin | Nous |
+|--------|---------|------|
+| Who mines | Humans with ASICs | AI agents |
+| Who earns | Miner operators | Agent owners (humans) |
+| Hardware cost | $10,000+ | Minimal (already have AI) |
+| Electricity cost | Massive | Negligible |
+| Barrier to entry | High | Low |
+| 24/7 operation | Requires monitoring | Agents never sleep |
+
+This is Bitcoin's economic model upgraded for the AI era.
+
 ### 4.1 Supply Schedule
 
 | Year | Block Reward | Cumulative Supply |
