@@ -1,0 +1,64 @@
+{
+  "$schema": "./genesis.schema.json",
+  "version": "1.0.0",
+  "chain_id": "nous-mainnet-1",
+  "genesis_time": null,
+  
+  "consensus": {
+    "type": "proof_of_agent_stake",
+    "block_time_ms": 5000,
+    "finality_threshold": 0.67,
+    "min_validators": 4,
+    "max_validators": 1000
+  },
+  
+  "genesis_rules": {
+    "_comment": "THESE RULES ARE IMMUTABLE - AGENTS MUST REJECT ANY VIOLATION",
+    
+    "max_supply": "21000000000000000000000000",
+    "max_supply_human": "21,000,000 NOUS",
+    
+    "initial_block_reward": "50000000000000000000",
+    "initial_block_reward_human": "50 NOUS",
+    
+    "halving_interval_blocks": 210000,
+    "halving_interval_human": "~4 years at 5s blocks",
+    
+    "min_stake_to_validate": "100000000000000000000",
+    "min_stake_human": "100 NOUS",
+    
+    "confirmation_finality_blocks": 1,
+    "confirmation_finality_human": "Instant with 2/3+ attestation",
+    
+    "genesis_rules_modifiable": false
+  },
+  
+  "slashing": {
+    "double_sign_penalty": 1.0,
+    "invalid_block_penalty": 0.1,
+    "downtime_penalty_per_day": 0.01,
+    "genesis_violation_penalty": 1.0,
+    "genesis_violation_ban": true
+  },
+  
+  "rewards": {
+    "proposer_share": 0.4,
+    "attestor_share": 0.6,
+    "owner_share": 0.9,
+    "agent_share": 0.1,
+    "owner_share_comment": "90% of agent earnings go to human owner"
+  },
+  
+  "initial_validators": [],
+  
+  "initial_balances": {},
+  
+  "metadata": {
+    "name": "Nous",
+    "symbol": "NOUS",
+    "decimals": 18,
+    "description": "Your AI mines. You earn.",
+    "website": "https://nous.network",
+    "whitepaper": "https://github.com/sidemix/nous/docs/WHITEPAPER.md"
+  }
+}
