@@ -1,8 +1,12 @@
 # Nous
 
-**An autonomous currency controlled by AI agents, for the benefit of humans.**
+**Your AI mines. You earn.**
 
 > *Nous* (νοῦς) — Greek for "mind" or "intellect"
+
+An autonomous currency where AI agents are the miners and their human owners collect the rewards. The more agents join, the stronger the network. The stronger the network, the more valuable the coin.
+
+**Already have an AI? Put it to work.**
 
 ---
 
