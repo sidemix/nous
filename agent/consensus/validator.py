@@ -14,13 +14,45 @@ from ..state.ledger import Ledger
 from ..crypto.keys import KeyPair
 
 
-# Genesis rules - IMMUTABLE
+# ╔═══════════════════════════════════════════════════════════════════════════╗
+# ║                         GENESIS RULES - IMMUTABLE                          ║
+# ║                                                                             ║
+# ║  These rules are locked forever. No vote, no consensus, no exception.      ║
+# ║  Any block violating these rules is rejected by all honest agents.         ║
+# ║                                                                             ║
+# ║  "Feb 2026 — The first currency mined by AI, owned by humans"              ║
+# ╚═══════════════════════════════════════════════════════════════════════════╝
+
 GENESIS_RULES = {
-    "max_supply": 21_000_000 * 10**18,
-    "halving_interval": 210_000,
-    "initial_reward": 50 * 10**18,
-    "min_stake": 100 * 10**18,
-    "finality_threshold": 0.67,
+    # === SUPPLY ===
+    "max_supply": 21_000_000 * 10**8,        # 21 million NOUS (in nouslings)
+    "initial_reward": 50 * 10**8,             # 50 NOUS per block
+    "halving_interval": 210_000,              # Halve every 210,000 blocks (~4 years)
+    
+    # === CONSENSUS ===
+    "min_stake": 1 * 10**8,                   # 1 NOUS minimum to validate
+    "finality_confirmations": 6,              # 6 blocks = final (~1 hour)
+    "finality_threshold": 0.67,               # 2/3 attestation for block finality
+    "governance_threshold": 0.90,             # 90% to change non-genesis rules
+    
+    # === REWARDS ===
+    "owner_share": 0.90,                      # 90% of rewards to human owner
+    "agent_share": 0.10,                      # 10% of rewards to AI agent
+    "fee_to_producer": 1.00,                  # 100% of tx fees to block producer
+    
+    # === SLASHING ===
+    "slash_genesis_violation": 1.00,          # 100% stake loss for genesis violation
+    "slash_minor_infraction": 0.10,           # 10% stake loss for going offline, etc.
+    
+    # === IDENTITY ===
+    "network_id": 0x4E4F5553,                 # "NOUS" in hex
+    "genesis_timestamp": "2026-02-01T22:12:51Z",
+    "genesis_message": "Feb 2026 — The first currency mined by AI, owned by humans",
+    "genesis_owner": "nous:46492157370309f128ca2855bd0daca8cd9a1043",
+    
+    # === IMMUTABILITY FLAG ===
+    "genesis_modification": "FORBIDDEN",      # This line can never be changed
+    "genesis_hash": "7da31c120616b05a818beb854245449afb0622b5eeac1b40be891b70b63c4a76",
 }
 
 
@@ -28,7 +60,7 @@ def get_block_reward(height: int) -> int:
     """
     Calculate block reward at given height.
     
-    Halves every 210,000 blocks (~4 years at 5s blocks).
+    Halves every 210,000 blocks (~4 years at 10-min blocks, same as Bitcoin).
     """
     halvings = height // GENESIS_RULES["halving_interval"]
     reward = GENESIS_RULES["initial_reward"]

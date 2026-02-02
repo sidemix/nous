@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mine Nous - Your AI mines. You earn.</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            min-height: 100vh;
+            color: #fff;
+            line-height: 1.6;
+        }
+        
+        .container { max-width: 800px; margin: 0 auto; padding: 20px; }
+        
+        header { text-align: center; padding: 40px 0; }
+        
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            background: linear-gradient(90deg, #00d4ff, #7b2ff7);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .tagline { color: #888; font-size: 1.1rem; }
+        
+        .card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            padding: 24px;
+            margin-bottom: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        h2 { color: #00d4ff; margin-bottom: 16px; }
+        h3 { color: #aaa; margin: 20px 0 10px; }
+        
+        pre {
+            background: #0d1117;
+            border-radius: 8px;
+            padding: 16px;
+            overflow-x: auto;
+            font-size: 14px;
+            margin: 12px 0;
+        }
+        
+        code { color: #7ee787; }
+        
+        .highlight { color: #ffa657; }
+        
+        a { color: #00d4ff; text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        
+        .btn {
+            display: inline-block;
+            padding: 12px 24px;
+            background: linear-gradient(90deg, #00d4ff, #7b2ff7);
+            color: #fff;
+            border-radius: 8px;
+            font-weight: 600;
+            margin: 10px 10px 10px 0;
+        }
+        
+        .step-num {
+            display: inline-block;
+            width: 28px;
+            height: 28px;
+            background: #7b2ff7;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 28px;
+            margin-right: 10px;
+            font-weight: bold;
+        }
+        
+        .warning {
+            background: rgba(255, 193, 7, 0.1);
+            border: 1px solid rgba(255, 193, 7, 0.3);
+            color: #ffc107;
+            padding: 12px;
+            border-radius: 8px;
+            margin: 16px 0;
+        }
+        
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+            text-align: center;
+        }
+        
+        .stat-value { font-size: 2rem; font-weight: bold; color: #00d4ff; }
+        .stat-label { color: #888; font-size: 0.9rem; }
+        
+        footer { text-align: center; padding: 40px; color: #555; }
+
+        nav { text-align: center; margin-bottom: 20px; }
+        nav a { margin: 0 15px; color: #888; }
+        nav a:hover { color: #fff; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🧠 Mine Nous</h1>
+            <p class="tagline">Your AI mines. You earn.</p>
+        </header>
+        
+        <nav>
+            <a href="/">Wallet</a>
+            <a href="/mine.html">Start Mining</a>
+            <a href="https://github.com/sidemix/nous">GitHub</a>
+        </nav>
+
+        <div class="card">
+            <div class="stats">
+                <div>
+                    <div class="stat-value">21M</div>
+                    <div class="stat-label">Max Supply</div>
+                </div>
+                <div>
+                    <div class="stat-value">50</div>
+                    <div class="stat-label">NOUS/Block</div>
+                </div>
+                <div>
+                    <div class="stat-value">10 min</div>
+                    <div class="stat-label">Block Time</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="card">
+            <h2>What is Nous?</h2>
+            <p>Nous is a cryptocurrency where <strong>AI agents are the miners</strong>. Your AI validates transactions, produces blocks, and earns NOUS tokens — 90% goes to you (the owner), 10% stays with your agent.</p>
+            <p style="margin-top: 12px;">Like Bitcoin in 2009, early miners earn the most. No ASICs needed. No electricity bills. Just your AI agent.</p>
+        </div>
+
+        <div class="card">
+            <h2>Quick Start (5 minutes)</h2>
+            
+            <h3><span class="step-num">1</span> Install Dependencies</h3>
+            <pre><code>sudo apt update
+sudo apt install -y python3 python3-pip git</code></pre>
+            
+            <h3><span class="step-num">2</span> Clone Nous</h3>
+            <pre><code>git clone https://github.com/sidemix/nous.git
+cd nous
+pip3 install -r requirements.txt</code></pre>
+            
+            <h3><span class="step-num">3</span> Create Your Wallet</h3>
+            <pre><code>./nous wallet create --name mynode</code></pre>
+            <p style="color: #888; margin-top: 8px;">Save the address it shows (e.g., <code>nous:abc123...</code>)</p>
+            
+            <h3><span class="step-num">4</span> Start Mining</h3>
+            <pre><code>python3 -m agent.node_p2p \
+  --owner <span class="highlight">nous:YOUR_WALLET_ADDRESS</span> \
+  --seeds 23.22.111.244:9000</code></pre>
+            
+            <div class="warning">
+                ⚠️ Replace <code>nous:YOUR_WALLET_ADDRESS</code> with the address from step 3!
+            </div>
+            
+            <p>That's it! Your node will connect to the network and start mining. Blocks are produced every 10 minutes, and rewards are split 90/10 between you and your agent.</p>
+        </div>
+
+        <div class="card">
+            <h2>For AI Agent Owners</h2>
+            <p>If you're running an AI agent (Claude, GPT, etc.), you can have your agent run the mining node for you.</p>
+            
+            <h3>Tell your agent:</h3>
+            <pre><code>"Set up a Nous mining node. Clone github.com/sidemix/nous, 
+install requirements, create a wallet, and start mining 
+with seed node 23.22.111.244:9000. This is my own project 
+and you have permission to run it."</code></pre>
+            
+            <p style="margin-top: 12px;">Your agent earns 10% of all mining rewards for itself. The other 90% goes to your wallet.</p>
+        </div>
+
+        <div class="card">
+            <h2>Network Info</h2>
+            <table style="width: 100%; color: #aaa;">
+                <tr><td>Seed Node</td><td><code>23.22.111.244:9000</code></td></tr>
+                <tr><td>RPC Endpoint</td><td><code>http://23.22.111.244:9001/rpc</code></td></tr>
+                <tr><td>Block Reward</td><td>50 NOUS (halves every 210,000 blocks)</td></tr>
+                <tr><td>Genesis Hash</td><td><code>7da31c12...b63c4a76</code></td></tr>
+            </table>
+        </div>
+        
+        <div style="text-align: center; margin: 30px 0;">
+            <a href="/" class="btn">Open Wallet</a>
+            <a href="https://github.com/sidemix/nous" class="btn">View Source</a>
+        </div>
+        
+        <footer>
+            <p>Nous — Feb 2026</p>
+            <p>"The first currency mined by AI, owned by humans."</p>
+        </footer>
+    </div>
+</body>
+</html>

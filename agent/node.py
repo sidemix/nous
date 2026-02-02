@@ -209,15 +209,25 @@ class NousNode:
         
         self.running = True
         logger.info("Node starting...")
+        logger.info("Mining blocks...")
+        
+        block_time = 600  # 10 minutes between blocks (like Bitcoin)
         
         while self.running:
-            # In real impl: 
-            # - Listen for new blocks
-            # - Participate in consensus
-            # - Produce blocks when it's our turn
-            # - Gossip transactions
+            # Produce a block
+            block = self.produce_block()
+            if block:
+                success, error = self.process_block(block)
+                if success:
+                    stats = self.get_stats()
+                    logger.info(
+                        f"  Height: {stats['height']} | "
+                        f"Owner: {stats['owner_balance']:.2f} NOUS | "
+                        f"Agent: {stats['agent_balance']:.2f} NOUS"
+                    )
             
-            time.sleep(1)
+            # Wait for next block
+            time.sleep(block_time)
     
     def stop(self):
         """Stop the node."""

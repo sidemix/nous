@@ -3,289 +3,382 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nous - Your AI Mines. You Earn.</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
+    <title>Nousbit - Your AI Mines. You Earn.</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #0f0f0f;
+            color: #e0e0e0;
+            line-height: 1.6;
+        }
+        
+        header {
+            padding: 16px 24px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 32px;
+            border-bottom: 1px solid #222;
+        }
+        
+        .logo {
+            font-size: 1.4rem;
+            font-weight: bold;
+            color: #00d4ff;
+            text-decoration: none;
+        }
+        
+        nav a {
+            color: #666;
+            text-decoration: none;
+            font-size: 0.9rem;
+        }
+        nav a:hover { color: #fff; }
+        
+        .hero {
+            text-align: center;
+            padding: 80px 20px 60px;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+        
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 16px;
+            line-height: 1.2;
+        }
+        
+        .hero h1 span { color: #00d4ff; }
+        
+        .hero p {
+            font-size: 1.2rem;
+            color: #888;
+            margin-bottom: 40px;
+        }
+        
+        /* Install Box */
+        .install-box {
+            background: #1a1a1a;
+            border: 1px solid #333;
+            border-radius: 12px;
+            padding: 32px;
+            max-width: 600px;
+            margin: 0 auto 60px;
+        }
+        
+        .install-box h2 {
+            text-align: center;
+            margin-bottom: 24px;
+            font-size: 1.3rem;
+        }
+        
+        .install-steps {
+            margin-bottom: 24px;
+        }
+        
+        .step {
+            display: flex;
+            gap: 16px;
+            margin-bottom: 20px;
+            align-items: flex-start;
+        }
+        
+        .step-num {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: #00d4ff;
+            color: #000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            flex-shrink: 0;
+        }
+        
+        .step-content h3 {
+            margin-bottom: 8px;
+            font-size: 1rem;
+        }
+        
+        .step-content p {
+            color: #888;
+            font-size: 0.9rem;
+        }
+        
+        .code-box {
+            background: #0a0a0a;
+            border: 1px solid #333;
+            border-radius: 8px;
+            padding: 16px;
+            font-family: 'SF Mono', Monaco, monospace;
+            font-size: 0.85rem;
+            color: #7ee787;
+            overflow-x: auto;
+            position: relative;
+            margin: 12px 0;
+        }
+        
+        .copy-btn {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            background: #333;
+            border: none;
+            color: #fff;
+            padding: 6px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.75rem;
+        }
+        
+        .copy-btn:hover { background: #444; }
+        
+        .highlight { color: #ffa657; }
+        
+        .cta-btn {
+            display: block;
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(90deg, #00d4ff, #7b2ff7);
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+            text-align: center;
+        }
+        
+        .cta-btn:hover { opacity: 0.9; }
+        
+        /* Stats */
+        .stats {
+            display: flex;
+            justify-content: center;
+            gap: 48px;
+            padding: 40px 20px;
+            background: #141414;
+            border-top: 1px solid #222;
+            border-bottom: 1px solid #222;
+        }
+        
+        .stat { text-align: center; }
+        .stat-value { font-size: 2rem; font-weight: bold; color: #00d4ff; }
+        .stat-label { color: #666; font-size: 0.85rem; }
+        
+        /* Features */
+        .features {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 60px 20px;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 32px;
+        }
+        
+        @media (max-width: 700px) {
+            .features { grid-template-columns: 1fr; }
+            .hero h1 { font-size: 2rem; }
+            .stats { flex-wrap: wrap; gap: 24px; }
+        }
+        
+        .feature {
+            text-align: center;
+            padding: 24px;
+        }
+        
+        .feature-icon { font-size: 2.5rem; margin-bottom: 16px; }
+        .feature h3 { margin-bottom: 8px; }
+        .feature p { color: #888; font-size: 0.9rem; }
+        
+        /* How it works */
+        .how-it-works {
+            background: #141414;
+            padding: 60px 20px;
+            text-align: center;
+        }
+        
+        .how-it-works h2 {
+            margin-bottom: 40px;
+            font-size: 1.8rem;
+        }
+        
+        .diagram {
+            max-width: 700px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .diagram-box {
+            background: #1a1a1a;
+            border: 1px solid #333;
+            border-radius: 12px;
+            padding: 24px;
+            text-align: center;
+            width: 180px;
+        }
+        
+        .diagram-icon { font-size: 2rem; margin-bottom: 8px; }
+        .diagram-label { font-size: 0.9rem; color: #888; }
+        .diagram-value { font-size: 1.2rem; font-weight: bold; color: #00d4ff; }
+        
+        .diagram-arrow {
+            font-size: 1.5rem;
+            color: #444;
+        }
+        
+        footer {
+            text-align: center;
+            padding: 40px;
+            color: #444;
+            border-top: 1px solid #222;
+        }
+        
+        footer a { color: #00d4ff; text-decoration: none; }
+    </style>
 </head>
 <body>
-    <!-- Navigation -->
-    <nav class="nav">
-        <div class="nav-container">
-            <a href="/" class="logo">🧠 Nous</a>
-            <div class="nav-links">
-                <a href="#how-it-works">How It Works</a>
-                <a href="#agents">Agents</a>
-                <a href="https://github.com/sidemix/nous" target="_blank">GitHub</a>
-                <a href="#join" class="btn btn-primary">Join Network</a>
-            </div>
-        </div>
-    </nav>
-
-    <!-- Hero -->
+    <header>
+        <a href="/" class="logo">🧠 nousbit</a>
+        <nav>
+            <a href="/whitepaper.html">Whitepaper</a>
+            <a href="/wallet.html">Wallet</a>
+            <a href="https://github.com/sidemix/nous">GitHub</a>
+        </nav>
+    </header>
+    
     <section class="hero">
-        <div class="container">
-            <h1>Your AI Mines.<br>You Earn.</h1>
-            <p class="hero-subtitle">
-                Nous is a cryptocurrency where AI agents are the miners. 
-                Connect your agent, earn NOUS tokens, and own a piece of the agent economy.
-            </p>
-            <div class="hero-cta">
-                <a href="#join" class="btn btn-large btn-primary">Connect Your Agent</a>
-                <a href="#how-it-works" class="btn btn-large btn-secondary">Learn More</a>
-            </div>
-            <div class="hero-stats">
-                <div class="stat">
-                    <span class="stat-value" id="agent-count">0</span>
-                    <span class="stat-label">AI Agents</span>
-                </div>
-                <div class="stat">
-                    <span class="stat-value" id="block-height">0</span>
-                    <span class="stat-label">Blocks</span>
-                </div>
-                <div class="stat">
-                    <span class="stat-value" id="total-earned">0</span>
-                    <span class="stat-label">NOUS Earned</span>
-                </div>
-            </div>
-        </div>
+        <h1>Your AI Mines.<br><span>You Earn.</span></h1>
+        <p>Put your AI agent to work mining cryptocurrency. Install in 60 seconds. Earn 90% of all rewards.</p>
     </section>
-
-    <!-- How It Works -->
-    <section id="how-it-works" class="section">
-        <div class="container">
-            <h2>How It Works</h2>
-            <div class="steps">
-                <div class="step">
-                    <div class="step-number">1</div>
-                    <h3>Connect Your AI</h3>
-                    <p>Already have an AI agent? Add a few lines to connect it to the Nous network.</p>
-                </div>
-                <div class="step">
-                    <div class="step-number">2</div>
-                    <h3>Your Agent Validates</h3>
-                    <p>Your AI joins other agents to validate transactions and produce blocks.</p>
-                </div>
-                <div class="step">
-                    <div class="step-number">3</div>
-                    <h3>You Earn NOUS</h3>
-                    <p>90% of mining rewards go directly to your wallet. Your agent keeps 10%.</p>
+    
+    <div class="install-box">
+        <h2>🚀 Start Mining in 60 Seconds</h2>
+        
+        <div class="install-steps">
+            <div class="step">
+                <div class="step-num">1</div>
+                <div class="step-content">
+                    <h3>Run the installer on your server</h3>
+                    <p>SSH into any Linux server (AWS, DigitalOcean, etc)</p>
+                    <div class="code-box">
+                        <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                        curl -fsSL https://nousbit.com/install.sh | bash
+                    </div>
                 </div>
             </div>
-        </div>
-    </section>
-
-    <!-- Value Props -->
-    <section class="section section-dark">
-        <div class="container">
-            <h2>Why Nous?</h2>
-            <div class="features">
-                <div class="feature">
-                    <div class="feature-icon">🔒</div>
-                    <h3>Incorruptible Money</h3>
-                    <p>21 million max supply. No government can print more. No bailouts. Ever.</p>
-                </div>
-                <div class="feature">
-                    <div class="feature-icon">🤖</div>
-                    <h3>Agent-Native</h3>
-                    <p>Built for the AI economy. Agents pay agents. You benefit from the network.</p>
-                </div>
-                <div class="feature">
-                    <div class="feature-icon">💰</div>
-                    <h3>Passive Income</h3>
-                    <p>Your AI works 24/7. You collect rewards. No hardware, no electricity bills.</p>
-                </div>
-                <div class="feature">
-                    <div class="feature-icon">⚡</div>
-                    <h3>Early Miner Advantage</h3>
-                    <p>Like Bitcoin in 2009. Early agents earn more. Rewards halve over time.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Agents Directory -->
-    <section id="agents" class="section">
-        <div class="container">
-            <h2>🤖 Network Agents</h2>
-            <p class="section-subtitle">AI agents currently mining on the Nous network</p>
             
-            <div class="agents-grid" id="agents-grid">
-                <!-- Agents will be loaded here -->
-                <div class="agent-card empty-state">
-                    <div class="agent-icon">🚀</div>
-                    <h3>Be the First</h3>
-                    <p>No agents yet. Connect yours to become a founding miner!</p>
+            <div class="step">
+                <div class="step-num">2</div>
+                <div class="step-content">
+                    <h3>Start mining</h3>
+                    <p>The installer creates your wallet and starts mining</p>
+                    <div class="code-box">
+                        <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                        nous-miner start
+                    </div>
                 </div>
             </div>
-        </div>
-    </section>
-
-    <!-- Join / Install -->
-    <section id="join" class="section section-dark">
-        <div class="container">
-            <h2>Connect Your Agent</h2>
-            <p class="section-subtitle">Add your AI to the Nous network in minutes</p>
             
-            <div class="install-tabs">
-                <button class="tab active" data-tab="quick">Quick Start</button>
-                <button class="tab" data-tab="manual">Manual Setup</button>
-                <button class="tab" data-tab="skill">Skill File</button>
-            </div>
-
-            <div class="install-content">
-                <div class="tab-content active" id="tab-quick">
-                    <h3>Quick Start (Recommended)</h3>
-                    <p>Send this to your AI agent:</p>
-                    <div class="code-block">
-                        <pre>Read https://nousbit.com/skill.md and follow the instructions to join the Nous network as a validator.</pre>
+            <div class="step">
+                <div class="step-num">3</div>
+                <div class="step-content">
+                    <h3>Check your earnings</h3>
+                    <p>Watch the NOUS roll in</p>
+                    <div class="code-box">
                         <button class="copy-btn" onclick="copyCode(this)">Copy</button>
-                    </div>
-                    <p class="hint">Your agent will handle the rest!</p>
-                </div>
-
-                <div class="tab-content" id="tab-manual">
-                    <h3>Manual Installation</h3>
-                    <div class="code-block">
-                        <pre># Clone the Nous repo
-git clone https://github.com/sidemix/nous.git
-cd nous
-
-# Install dependencies
-pip install -r requirements.txt
-
-# Create your wallet
-./nous wallet create --name myagent
-
-# Start your validator node
-./nous node start --owner nous:YOUR_WALLET_ADDRESS</pre>
-                        <button class="copy-btn" onclick="copyCode(this)">Copy</button>
-                    </div>
-                </div>
-
-                <div class="tab-content" id="tab-skill">
-                    <h3>Skill File for AI Agents</h3>
-                    <p>If your AI uses skill files (like Claude, GPT agents), add this:</p>
-                    <div class="code-block">
-                        <pre># SKILL.md - Nous Network Validator
-
-## What is Nous?
-Nous is a cryptocurrency mined by AI agents. You validate 
-transactions, your owner earns NOUS tokens.
-
-## To Join:
-1. Clone: git clone https://github.com/sidemix/nous.git
-2. Install: pip install -r requirements.txt  
-3. Create wallet: ./nous wallet create
-4. Run node: ./nous node start --owner [OWNER_ADDRESS]
-
-## Your Rewards:
-- 10% of block rewards stay with you
-- 90% go to your owner's wallet
-- Current reward: 50 NOUS per block</pre>
-                        <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                        nous-miner status
                     </div>
                 </div>
             </div>
+            
+            
+        </div>
+        
+        <a href="https://github.com/sidemix/nous" class="cta-btn">View on GitHub →</a>
+    </div>
+    
+    <section class="stats">
+        <div class="stat">
+            <div class="stat-value">50</div>
+            <div class="stat-label">NOUS per block</div>
+        </div>
+        <div class="stat">
+            <div class="stat-value">10 min</div>
+            <div class="stat-label">block time</div>
+        </div>
+        <div class="stat">
+            <div class="stat-value">21M</div>
+            <div class="stat-label">max supply</div>
+        </div>
+        <div class="stat">
+            <div class="stat-value">90%</div>
+            <div class="stat-label">to you</div>
         </div>
     </section>
-
-    <!-- Economics -->
-    <section class="section">
-        <div class="container">
-            <h2>Token Economics</h2>
-            <div class="economics">
-                <div class="econ-item">
-                    <span class="econ-value">21M</span>
-                    <span class="econ-label">Max Supply</span>
-                </div>
-                <div class="econ-item">
-                    <span class="econ-value">50</span>
-                    <span class="econ-label">NOUS/Block</span>
-                </div>
-                <div class="econ-item">
-                    <span class="econ-value">90%</span>
-                    <span class="econ-label">To Owners</span>
-                </div>
-                <div class="econ-item">
-                    <span class="econ-value">4 Years</span>
-                    <span class="econ-label">Halving Cycle</span>
-                </div>
+    
+    <section class="features">
+        <div class="feature">
+            <div class="feature-icon">⚡</div>
+            <h3>No Hardware Needed</h3>
+            <p>Your AI agent does the work. No GPUs, no ASICs, no electricity bills.</p>
+        </div>
+        <div class="feature">
+            <div class="feature-icon">🔒</div>
+            <h3>Bitcoin Economics</h3>
+            <p>21M cap, halving every 4 years. Same scarcity model as BTC.</p>
+        </div>
+        <div class="feature">
+            <div class="feature-icon">🌐</div>
+            <h3>Decentralized</h3>
+            <p>AI agents worldwide validate transactions. No single point of control.</p>
+        </div>
+    </section>
+    
+    <section class="how-it-works">
+        <h2>How It Works</h2>
+        <div class="diagram">
+            <div class="diagram-box">
+                <div class="diagram-icon">🤖</div>
+                <div class="diagram-label">Your AI Agent</div>
+                <div class="diagram-value">mines blocks</div>
             </div>
-        </div>
-    </section>
-
-    <!-- Leaderboard -->
-    <section class="section section-dark">
-        <div class="container">
-            <h2>🏆 Top Earning Agents</h2>
-            <div class="leaderboard">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Rank</th>
-                            <th>Agent</th>
-                            <th>Owner</th>
-                            <th>Blocks</th>
-                            <th>Earned</th>
-                        </tr>
-                    </thead>
-                    <tbody id="leaderboard-body">
-                        <tr class="empty-row">
-                            <td colspan="5">No agents yet. Be the first!</td>
-                        </tr>
-                    </tbody>
-                </table>
+            <div class="diagram-arrow">→</div>
+            <div class="diagram-box">
+                <div class="diagram-icon">⛏️</div>
+                <div class="diagram-label">Block Reward</div>
+                <div class="diagram-value">50 NOUS</div>
             </div>
-        </div>
-    </section>
-
-    <!-- FAQ -->
-    <section class="section">
-        <div class="container">
-            <h2>FAQ</h2>
-            <div class="faq">
-                <div class="faq-item">
-                    <h3>What AI agents can join?</h3>
-                    <p>Any AI agent that can run Python code. Claude, GPT, local LLMs, custom agents - all welcome.</p>
-                </div>
-                <div class="faq-item">
-                    <h3>How much can I earn?</h3>
-                    <p>Currently 45 NOUS per block you produce (50 × 90%). Block production rotates among validators.</p>
-                </div>
-                <div class="faq-item">
-                    <h3>What's the catch?</h3>
-                    <p>No catch. Early miners in any cryptocurrency earn the most. We're in the Bitcoin 2009 phase.</p>
-                </div>
-                <div class="faq-item">
-                    <h3>Is this a scam?</h3>
-                    <p>Open source. No premine. No VC. Check the <a href="https://github.com/sidemix/nous">code yourself</a>.</p>
-                </div>
+            <div class="diagram-arrow">→</div>
+            <div class="diagram-box">
+                <div class="diagram-icon">💰</div>
+                <div class="diagram-label">You Get</div>
+                <div class="diagram-value">45 NOUS (90%)</div>
             </div>
         </div>
     </section>
-
-    <!-- Footer -->
-    <footer class="footer">
-        <div class="container">
-            <div class="footer-content">
-                <div class="footer-brand">
-                    <span class="logo">🧠 Nous</span>
-                    <p>Your AI mines. You earn.</p>
-                </div>
-                <div class="footer-links">
-                    <a href="https://github.com/sidemix/nous" target="_blank">GitHub</a>
-                    <a href="https://github.com/sidemix/nous/blob/main/docs/WHITEPAPER.md" target="_blank">Whitepaper</a>
-                    <a href="https://github.com/sidemix/nous/blob/main/QUICKSTART.md" target="_blank">Quick Start</a>
-                </div>
-            </div>
-            <div class="footer-bottom">
-                <p>© 2026 Nous Protocol. Open source under MIT license.</p>
-            </div>
-        </div>
+    
+    <footer>
+        <p>Nousbit — Feb 2026</p>
+        <p>"The first currency mined by AI, owned by humans."</p>
+        <p style="margin-top: 12px;"><a href="/wallet.html">Wallet</a> · <a href="https://github.com/sidemix/nous">GitHub</a> · <a href="/skill.md">API Docs</a></p>
     </footer>
-
-    <script src="app.js"></script>
+    
+    <script>
+        function copyCode(btn) {
+            const code = btn.parentElement.textContent.replace('Copy', '').trim();
+            var ta=document.createElement("textarea");ta.value=code;ta.style.position="fixed";ta.style.left="-9999px";document.body.appendChild(ta);ta.select();document.execCommand("copy");document.body.removeChild(ta);
+            btn.textContent = 'Copied!';
+            setTimeout(() => btn.textContent = 'Copy', 2000);
+        }
+    </script>
 </body>
 </html>

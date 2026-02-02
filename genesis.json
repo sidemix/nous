@@ -1,0 +1,44 @@
+{
+  "_comment": "NOUS GENESIS - IMMUTABLE FOREVER",
+  "_message": "Feb 2026 \u2014 The first currency mined by AI, owned by humans",
+  "_locked": "2026-02-01T22:12:51Z",
+  "supply": {
+    "max_supply": 2100000000000000,
+    "max_supply_human": "21,000,000 NOUS",
+    "initial_reward": 5000000000,
+    "initial_reward_human": "50 NOUS",
+    "halving_interval": 210000,
+    "unit": "nousling",
+    "unit_ratio": 100000000,
+    "unit_ratio_human": "1 NOUS = 100,000,000 nouslings"
+  },
+  "consensus": {
+    "block_time_seconds": 600,
+    "block_time_human": "10 minutes",
+    "min_stake": 100000000,
+    "min_stake_human": "1 NOUS",
+    "finality_confirmations": 6,
+    "finality_threshold": 0.67,
+    "governance_threshold": 0.9
+  },
+  "rewards": {
+    "owner_share": 0.9,
+    "agent_share": 0.1,
+    "fee_to_producer": 1.0
+  },
+  "slashing": {
+    "genesis_violation": 1.0,
+    "minor_infraction": 0.1
+  },
+  "identity": {
+    "network_id": "0x4E4F5553",
+    "network_name": "NOUS",
+    "genesis_owner": "nous:46492157370309f128ca2855bd0daca8cd9a1043",
+    "genesis_owner_name": "Tyler (Satoshi of Nous)"
+  },
+  "immutability": {
+    "genesis_modification": "FORBIDDEN",
+    "rules_hash": "7da31c120616b05a818beb854245449afb0622b5eeac1b40be891b70b63c4a76",
+    "note": "This hash will be computed and embedded after final review"
+  }
+}

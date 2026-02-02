@@ -1,0 +1,31 @@
+{
+  "name": "nous-miner",
+  "version": "1.0.0",
+  "description": "Nous cryptocurrency mining skill for AI agents",
+  "main": "index.js",
+  "bin": {
+    "nous-miner": "./bin/nous-miner.js"
+  },
+  "scripts": {
+    "postinstall": "node scripts/setup.js"
+  },
+  "keywords": [
+    "nous",
+    "crypto",
+    "mining",
+    "ai",
+    "agent",
+    "clawdbot",
+    "openclaw",
+    "skill"
+  ],
+  "author": "sidemix",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/sidemix/nous.git"
+  },
+  "dependencies": {
+    "axios": "^1.6.0"
+  }
+}

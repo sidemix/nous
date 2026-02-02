@@ -13,9 +13,9 @@ from typing import Optional
 from ..crypto.keys import KeyPair
 
 
-# 1 NOUS = 10^18 nouslings (like wei in Ethereum)
+# 1 NOUS = 100,000,000 nouslings (same as Bitcoin: 1 BTC = 100M satoshis)
 NOUSLING = 1
-NOUS = 10**18
+NOUS = 10**8
 
 
 @dataclass

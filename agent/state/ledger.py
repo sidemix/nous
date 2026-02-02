@@ -173,13 +173,16 @@ class Ledger:
         self,
         agent_address: str,
         reward: int,
-        agent_share: float = 0.1,
+        agent_share: float = None,
     ) -> Tuple[bool, str]:
         """
         Distribute block reward to agent and owner.
         
-        Default: 90% to owner, 10% to agent.
+        Uses genesis rules: 90% to owner, 10% to agent.
         """
+        from ..consensus.validator import GENESIS_RULES
+        if agent_share is None:
+            agent_share = GENESIS_RULES["agent_share"]
         agent = self.get_account(agent_address)
         
         if not agent.is_agent or agent.owner is None:

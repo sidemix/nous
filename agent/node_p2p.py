@@ -92,7 +92,7 @@ class P2PNode:
         
         # Control
         self.running = False
-        self.block_interval = 5.0  # seconds
+        self.block_interval = 600.0  # 10 minutes (same as Bitcoin)
         
         logger.info(f"P2P Node initialized")
         logger.info(f"  Address: {self.address}")
@@ -115,7 +115,7 @@ class P2PNode:
         # Set up this node as agent
         self.ledger.get_account(self.address).is_agent = True
         self.ledger.get_account(self.address).owner = self.owner_address
-        self.ledger.get_account(self.address).staked = 100 * NOUS
+        self.ledger.get_account(self.address).staked = GENESIS_RULES["min_stake"]
         
         logger.info(f"Genesis initialized at height 0")
     
@@ -278,6 +278,7 @@ async def run_node(
     port: int = 9000,
     rpc_port: int = 9001,
     seeds: List[str] = None,
+    is_seed_node: bool = False,
 ):
     """Run a P2P node."""
     
@@ -292,11 +293,23 @@ async def run_node(
         rpc_port=rpc_port,
     )
     
-    # Initialize genesis (in real network, would sync from peers)
-    node.initialize_genesis(
-        validators=[address],
-        balances={address: 100 * NOUS},
-    )
+    # Initialize genesis using locked rules
+    min_stake = GENESIS_RULES["min_stake"]
+    
+    if is_seed_node or not seeds:
+        # We're the first node - create genesis
+        node.initialize_genesis(
+            validators=[address],
+            balances={address: min_stake},
+        )
+        logger.info(f"Created genesis block (seed node)")
+    else:
+        # Joining existing network - will sync from peers
+        node.initialize_genesis(
+            validators=[address],
+            balances={address: min_stake},
+        )
+        logger.info(f"Will sync chain from peers")
     
     # Handle shutdown
     loop = asyncio.get_event_loop()
@@ -321,6 +334,7 @@ def main():
     parser.add_argument("--port", "-p", type=int, default=9000, help="P2P port")
     parser.add_argument("--rpc-port", type=int, default=9001, help="RPC port")
     parser.add_argument("--seeds", help="Comma-separated seed nodes")
+    parser.add_argument("--seed-node", action="store_true", help="Run as seed node (create genesis)")
     
     args = parser.parse_args()
     
@@ -329,7 +343,10 @@ def main():
     print()
     print("╔══════════════════════════════════════════════════════════════════╗")
     print("║                       NOUS P2P NODE                              ║")
-    print("║                   Your AI mines. You earn.                       ║")
+    print("║         Feb 2026 — The first currency mined by AI,               ║")
+    print("║                        owned by humans                           ║")
+    print("╠══════════════════════════════════════════════════════════════════╣")
+    print(f"║  Genesis Hash: {GENESIS_RULES['genesis_hash'][:40]}...  ║")
     print("╚══════════════════════════════════════════════════════════════════╝")
     print()
     
@@ -338,6 +355,7 @@ def main():
         port=args.port,
         rpc_port=args.rpc_port,
         seeds=seeds,
+        is_seed_node=args.seed_node,
     ))
     
     return 0

@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nous Wallet</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            min-height: 100vh;
+            color: #fff;
+        }
+        
+        .container {
+            max-width: 480px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            text-align: center;
+            padding: 40px 0;
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            background: linear-gradient(90deg, #00d4ff, #7b2ff7);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .tagline {
+            color: #888;
+            font-size: 0.9rem;
+        }
+        
+        .card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            padding: 24px;
+            margin-bottom: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .card h2 {
+            font-size: 0.9rem;
+            color: #888;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 12px;
+        }
+        
+        .balance {
+            font-size: 2.5rem;
+            font-weight: 700;
+        }
+        
+        .balance-usd {
+            color: #888;
+            font-size: 1rem;
+            margin-top: 4px;
+        }
+        
+        .address {
+            font-family: monospace;
+            font-size: 0.85rem;
+            color: #aaa;
+            word-break: break-all;
+            background: rgba(0,0,0,0.3);
+            padding: 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        
+        .address:hover {
+            background: rgba(0,0,0,0.5);
+        }
+        
+        .address-label {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .copy-hint {
+            font-size: 0.75rem;
+            color: #666;
+        }
+        
+        .form-group {
+            margin-bottom: 16px;
+        }
+        
+        label {
+            display: block;
+            font-size: 0.85rem;
+            color: #888;
+            margin-bottom: 8px;
+        }
+        
+        input {
+            width: 100%;
+            padding: 14px;
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 8px;
+            background: rgba(0,0,0,0.3);
+            color: #fff;
+            font-size: 1rem;
+        }
+        
+        input:focus {
+            outline: none;
+            border-color: #00d4ff;
+        }
+        
+        input::placeholder {
+            color: #555;
+        }
+        
+        button {
+            width: 100%;
+            padding: 16px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s, opacity 0.2s;
+        }
+        
+        button:hover {
+            transform: translateY(-2px);
+        }
+        
+        button:active {
+            transform: translateY(0);
+        }
+        
+        button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(90deg, #00d4ff, #7b2ff7);
+            color: #fff;
+        }
+        
+        .btn-secondary {
+            background: rgba(255,255,255,0.1);
+            color: #fff;
+        }
+        
+        .btn-danger {
+            background: #ff4757;
+            color: #fff;
+        }
+        
+        .status {
+            text-align: center;
+            padding: 12px;
+            border-radius: 8px;
+            margin-top: 16px;
+            font-size: 0.9rem;
+        }
+        
+        .status.success {
+            background: rgba(0, 212, 255, 0.2);
+            color: #00d4ff;
+        }
+        
+        .status.error {
+            background: rgba(255, 71, 87, 0.2);
+            color: #ff4757;
+        }
+        
+        .hidden {
+            display: none;
+        }
+        
+        .welcome {
+            text-align: center;
+            padding: 40px 0;
+        }
+        
+        .welcome p {
+            color: #888;
+            margin-bottom: 24px;
+        }
+        
+        .tx-history {
+            max-height: 200px;
+            overflow-y: auto;
+        }
+        
+        .tx-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+        
+        .tx-item:last-child {
+            border-bottom: none;
+        }
+        
+        .tx-out { color: #ff4757; }
+        .tx-in { color: #2ed573; }
+        
+        .node-status {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.8rem;
+            color: #888;
+            margin-top: 20px;
+            justify-content: center;
+        }
+        
+        .node-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #ff4757;
+        }
+        
+        .node-dot.connected {
+            background: #2ed573;
+        }
+        
+        footer {
+            text-align: center;
+            padding: 20px;
+            color: #555;
+            font-size: 0.8rem;
+        }
+        
+        footer a {
+            color: #00d4ff;
+            text-decoration: none;
+        }
+        
+        .warning {
+            background: rgba(255, 193, 7, 0.1);
+            border: 1px solid rgba(255, 193, 7, 0.3);
+            color: #ffc107;
+            padding: 12px;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            margin-bottom: 20px;
+        }
+        
+        .actions {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-top: 16px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🧠 Nous</h1>
+            <p class="tagline">Your AI mines. You earn.</p>
+        </header>
+        
+        <!-- Welcome Screen (No Wallet) -->
+        <div id="welcome" class="welcome">
+            <div class="card">
+                <h2>Welcome to Nous</h2>
+                <p>The first currency mined by AI, owned by humans.</p>
+                <br>
+                <button class="btn-primary" onclick="createWallet()">Create Wallet</button>
+                <br><br>
+                <button class="btn-secondary" onclick="showImport()">Import Existing Wallet</button>
+            </div>
+        </div>
+        
+        <!-- Import Wallet -->
+        <div id="import-section" class="hidden">
+            <div class="card">
+                <h2>Import Wallet</h2>
+                <div class="form-group">
+                    <label>Private Key</label>
+                    <input type="password" id="import-key" placeholder="Enter your private key">
+                </div>
+                <button class="btn-primary" onclick="importWallet()">Import</button>
+                <br><br>
+                <button class="btn-secondary" onclick="hideImport()">Cancel</button>
+            </div>
+        </div>
+        
+        <!-- Main Wallet View -->
+        <div id="wallet" class="hidden">
+            <div class="warning">
+                ⚠️ Beta wallet. Keys stored in browser. Back up your private key!
+            </div>
+            
+            <!-- Balance Card -->
+            <div class="card">
+                <h2>Balance</h2>
+                <div class="balance"><span id="balance">0.00</span> NOUS</div>
+                <div class="balance-usd" id="balance-usd"></div>
+            </div>
+            
+            <!-- Address Card -->
+            <div class="card">
+                <div class="address-label">
+                    <h2>Your Address</h2>
+                    <span class="copy-hint">Click to copy</span>
+                </div>
+                <div class="address" id="address" onclick="copyAddress()"></div>
+            </div>
+            
+            <!-- Send Card -->
+            <div class="card">
+                <h2>Send NOUS</h2>
+                <div class="form-group">
+                    <label>Recipient Address</label>
+                    <input type="text" id="send-to" placeholder="nous:...">
+                </div>
+                <div class="form-group">
+                    <label>Amount</label>
+                    <input type="number" id="send-amount" placeholder="0.00" step="0.00000001">
+                </div>
+                <button class="btn-primary" id="send-btn" onclick="sendNous()">Send</button>
+                <div id="send-status" class="status hidden"></div>
+            </div>
+            
+            <!-- Actions -->
+            <div class="card">
+                <h2>Wallet</h2>
+                <div class="actions">
+                    <button class="btn-secondary" onclick="exportKey()">Export Key</button>
+                    <button class="btn-danger" onclick="deleteWallet()">Delete Wallet</button>
+                </div>
+            </div>
+            
+            <div class="node-status">
+                <div class="node-dot" id="node-dot"></div>
+                <span id="node-status">Connecting to node...</span>
+            </div>
+        </div>
+        
+        <footer>
+            <p>Nous — Feb 2026</p>
+            <p><a href="https://github.com/sidemix/nous">GitHub</a> · Genesis: 7da31c12...</p>
+        </footer>
+    </div>
+    
+    <script>
+        // Configuration
+        const NODE_RPC = '/rpc';  // Proxied through nginx
+        const STORAGE_KEY = 'nous_wallet';
+        
+        // Wallet state
+        let wallet = null;
+        
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            loadWallet();
+        });
+        
+        function loadWallet() {
+            const saved = localStorage.getItem(STORAGE_KEY);
+            if (saved) {
+                wallet = JSON.parse(saved);
+                showWallet();
+            } else {
+                document.getElementById('welcome').classList.remove('hidden');
+            }
+        }
+        
+        function showWallet() {
+            document.getElementById('welcome').classList.add('hidden');
+            document.getElementById('import-section').classList.add('hidden');
+            document.getElementById('wallet').classList.remove('hidden');
+            
+            document.getElementById('address').textContent = wallet.address;
+            
+            // Check balance
+            refreshBalance();
+            
+            // Check node connection
+            checkNode();
+        }
+        
+        async function createWallet() {
+            // Generate keypair using Web Crypto
+            const keyPair = await generateKeyPair();
+            
+            wallet = {
+                address: 'nous:' + keyPair.addressHex,
+                publicKey: keyPair.publicHex,
+                privateKey: keyPair.privateHex,
+                nonce: 0
+            };
+            
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(wallet));
+            showWallet();
+            
+            alert('Wallet created!\\n\\nIMPORTANT: Back up your private key!\\n\\nClick "Export Key" to see it.');
+        }
+        
+        async function generateKeyPair() {
+            // Generate Ed25519-like keypair using Web Crypto
+            // For simplicity, using random bytes (in production, use proper Ed25519)
+            const privateBytes = new Uint8Array(32);
+            crypto.getRandomValues(privateBytes);
+            
+            // Derive "public key" (simplified - real impl would use Ed25519)
+            const publicBytes = new Uint8Array(32);
+            const hashBuffer = await crypto.subtle.digest('SHA-256', privateBytes);
+            publicBytes.set(new Uint8Array(hashBuffer));
+            
+            // Address is hash of public key
+            const addressBuffer = await crypto.subtle.digest('SHA-256', publicBytes);
+            const addressBytes = new Uint8Array(addressBuffer).slice(0, 20);
+            
+            return {
+                privateHex: Array.from(privateBytes).map(b => b.toString(16).padStart(2, '0')).join(''),
+                publicHex: Array.from(publicBytes).map(b => b.toString(16).padStart(2, '0')).join(''),
+                addressHex: Array.from(addressBytes).map(b => b.toString(16).padStart(2, '0')).join('')
+            };
+        }
+        
+        function showImport() {
+            document.getElementById('welcome').classList.add('hidden');
+            document.getElementById('import-section').classList.remove('hidden');
+        }
+        
+        function hideImport() {
+            document.getElementById('import-section').classList.add('hidden');
+            document.getElementById('welcome').classList.remove('hidden');
+        }
+        
+        async function importWallet() {
+            const privateHex = document.getElementById('import-key').value.trim();
+            
+            if (!privateHex || privateHex.length !== 64) {
+                alert('Invalid private key. Must be 64 hex characters.');
+                return;
+            }
+            
+            // Derive public key and address from private key
+            const privateBytes = new Uint8Array(privateHex.match(/.{2}/g).map(b => parseInt(b, 16)));
+            const hashBuffer = await crypto.subtle.digest('SHA-256', privateBytes);
+            const publicBytes = new Uint8Array(hashBuffer);
+            
+            const addressBuffer = await crypto.subtle.digest('SHA-256', publicBytes);
+            const addressBytes = new Uint8Array(addressBuffer).slice(0, 20);
+            
+            wallet = {
+                address: 'nous:' + Array.from(addressBytes).map(b => b.toString(16).padStart(2, '0')).join(''),
+                publicKey: Array.from(publicBytes).map(b => b.toString(16).padStart(2, '0')).join(''),
+                privateKey: privateHex,
+                nonce: 0
+            };
+            
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(wallet));
+            showWallet();
+        }
+        
+        function exportKey() {
+            const key = wallet.privateKey;
+            if (confirm('Your private key will be displayed.\\n\\nNEVER share this with anyone!\\n\\nContinue?')) {
+                prompt('Your private key (copy and store safely):', key);
+            }
+        }
+        
+        function deleteWallet() {
+            if (confirm('Are you sure? This will delete your wallet from this browser.\\n\\nMake sure you have backed up your private key!')) {
+                if (confirm('FINAL WARNING: Have you saved your private key?')) {
+                    localStorage.removeItem(STORAGE_KEY);
+                    wallet = null;
+                    location.reload();
+                }
+            }
+        }
+        
+        function copyAddress() {
+            navigator.clipboard.writeText(wallet.address);
+            const el = document.getElementById('address');
+            const original = el.textContent;
+            el.textContent = 'Copied!';
+            setTimeout(() => el.textContent = original, 1000);
+        }
+        
+        async function refreshBalance() {
+            try {
+                const response = await fetch(NODE_RPC, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        jsonrpc: '2.0',
+                        method: 'get_balance',
+                        params: { address: wallet.address },
+                        id: 1
+                    })
+                });
+                
+                const data = await response.json();
+                if (data.result !== undefined) {
+                    const balance = data.result / 100000000; // Convert from nouslings
+                    document.getElementById('balance').textContent = balance.toFixed(8);
+                }
+            } catch (e) {
+                console.log('Could not fetch balance:', e);
+            }
+        }
+        
+        async function checkNode() {
+            const dot = document.getElementById('node-dot');
+            const status = document.getElementById('node-status');
+            
+            try {
+                const response = await fetch(NODE_RPC, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        jsonrpc: '2.0',
+                        method: 'get_info',
+                        params: {},
+                        id: 1
+                    })
+                });
+                
+                const data = await response.json();
+                dot.classList.add('connected');
+                status.textContent = 'Connected to Nous network';
+            } catch (e) {
+                dot.classList.remove('connected');
+                status.textContent = 'Node offline - balance may be stale';
+            }
+        }
+        
+        async function sendNous() {
+            const to = document.getElementById('send-to').value.trim();
+            const amount = parseFloat(document.getElementById('send-amount').value);
+            const statusEl = document.getElementById('send-status');
+            const btn = document.getElementById('send-btn');
+            
+            if (!to.startsWith('nous:')) {
+                showStatus('Invalid address. Must start with nous:', 'error');
+                return;
+            }
+            
+            if (!amount || amount <= 0) {
+                showStatus('Invalid amount', 'error');
+                return;
+            }
+            
+            btn.disabled = true;
+            showStatus('Sending...', 'success');
+            
+            try {
+                // Create transaction
+                const amountNouslings = Math.floor(amount * 100000000);
+                
+                const response = await fetch(NODE_RPC, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        jsonrpc: '2.0',
+                        method: 'send_transaction',
+                        params: {
+                            from: wallet.address,
+                            to: to,
+                            amount: amountNouslings,
+                            private_key: wallet.privateKey
+                        },
+                        id: 1
+                    })
+                });
+                
+                const data = await response.json();
+                
+                if (data.error) {
+                    showStatus('Error: ' + data.error.message, 'error');
+                } else {
+                    showStatus('Sent! TX: ' + (data.result?.tx_id || 'pending').slice(0, 16) + '...', 'success');
+                    document.getElementById('send-to').value = '';
+                    document.getElementById('send-amount').value = '';
+                    wallet.nonce++;
+                    localStorage.setItem(STORAGE_KEY, JSON.stringify(wallet));
+                    setTimeout(refreshBalance, 2000);
+                }
+            } catch (e) {
+                showStatus('Network error: ' + e.message, 'error');
+            }
+            
+            btn.disabled = false;
+        }
+        
+        function showStatus(message, type) {
+            const el = document.getElementById('send-status');
+            el.textContent = message;
+            el.className = 'status ' + type;
+            el.classList.remove('hidden');
+        }
+        
+        // Refresh balance every 30 seconds
+        setInterval(refreshBalance, 30000);
+        setInterval(checkNode, 30000);
+    </script>
+</body>
+</html>
